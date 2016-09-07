@@ -1,0 +1,31 @@
+group 'io.digitalreactor'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Module
+    compile project('digital-reactor-web')
+    compile files('libs/digital-reactor-ui-1.0-SNAPSHOT.jar')
+
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile("org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE")
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
