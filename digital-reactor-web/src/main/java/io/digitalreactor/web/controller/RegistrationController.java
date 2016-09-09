@@ -1,7 +1,9 @@
 package io.digitalreactor.web.controller;
 
-import io.digitalreactor.core.service.AccessTokenResolver;
 import io.digitalreactor.core.service.TemporalTokenStorage;
+import io.digitalreactor.vendor.yandex.model.Counter;
+import io.digitalreactor.vendor.yandex.serivce.CounterApiService;
+import io.digitalreactor.vendor.yandex.serivce.GrantCodeToTokenResolver;
 import io.digitalreactor.web.contract.RegistrationControllerContract;
 import io.digitalreactor.web.dto.NewAccountUI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +13,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created by ingvard on 08.09.16.
  */
 @RestController
 public class RegistrationController implements RegistrationControllerContract {
 
-    //@Autowired
+    @Autowired
     private TemporalTokenStorage tokenStorage;
 
-   // @Autowired
-    private AccessTokenResolver tokenResolver;
+    @Autowired
+    private GrantCodeToTokenResolver tokenResolver;
+
+    @Autowired
+    private CounterApiService counterApiService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @Override
-    public ModelAndView activateRegistrationSession(@RequestParam String code) {
-      /*  String token = tokenResolver.solve(code);
-        tokenStorage.store(token);*/
+    public ModelAndView activateRegistrationSession(@RequestParam Long code) {
+        String token = tokenResolver.getTokenByGrantCode(code);
+        tokenStorage.store(token);
 
-        return new ModelAndView("redirect:" + "/registration.html#access/1234");
+        return new ModelAndView(String.format("redirect:/registration.html#access/%s", token));
+    }
+
+    public List<Counter> getCounters(String clientToken) {
+        return counterApiService.getCounters(clientToken);
     }
 
     @Override

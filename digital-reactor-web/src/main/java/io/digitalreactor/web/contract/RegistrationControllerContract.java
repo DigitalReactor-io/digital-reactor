@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by ingvard on 08.09.16.
  */
 public interface RegistrationControllerContract {
-    ModelAndView activateRegistrationSession(String code);
+    ModelAndView activateRegistrationSession(Long code);
 
     void createNewAccount(NewAccountUI newAccountUI);
 }

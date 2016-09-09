@@ -18,12 +18,13 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     //Module
     compile project('digital-reactor-web')
-    compile files('libs/digital-reactor-ui-1.0-SNAPSHOT.jar')
+    compile 'io.digitalreactor:digital-reactor-ui:1.0-SNAPSHOT'
 
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile("org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE")
