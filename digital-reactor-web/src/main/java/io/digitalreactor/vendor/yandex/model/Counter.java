@@ -1,10 +1,13 @@
 package io.digitalreactor.vendor.yandex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by MStepachev on 09.09.2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Counter {
-    private long id;
+    private Long id;
     private String name;
 
     public Counter() {

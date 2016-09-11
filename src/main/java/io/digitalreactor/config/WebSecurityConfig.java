@@ -1,4 +1,4 @@
-package io.digitalreactor.web.config;
+package io.digitalreactor.config;
 
 import io.digitalreactor.web.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

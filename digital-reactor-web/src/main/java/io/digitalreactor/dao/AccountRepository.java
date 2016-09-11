@@ -8,4 +8,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface AccountRepository extends MongoRepository<Account, String> {
     Account findByEmail(String email);
+
+    default Boolean existsByEmail(String email) {
+        return findByEmail(email) != null;
+    }
 }

@@ -5,7 +5,10 @@ package io.digitalreactor.model;
  */
 public class Site {
     private String name;
-    private String description;
     private YandexCounterAccess yandexAccess;
 
+    public Site(String name, YandexCounterAccess yandexAccess) {
+        this.name = name;
+        this.yandexAccess = yandexAccess;
+    }
 }

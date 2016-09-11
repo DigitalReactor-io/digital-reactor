@@ -20,4 +20,8 @@ public class TemporalTokenStorage {
     public String poll(String keyStore) {
         return tokenStore.remove(keyStore);
     }
+
+    public String get(String keyStore) {
+        return tokenStore.get(keyStore);
+    }
 }

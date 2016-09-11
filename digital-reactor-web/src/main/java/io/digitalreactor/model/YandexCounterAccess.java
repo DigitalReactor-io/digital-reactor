@@ -6,4 +6,9 @@ package io.digitalreactor.model;
 public class YandexCounterAccess {
     private String token;
     private String counterId;
+
+    public YandexCounterAccess(String token, String counterId) {
+        this.token = token;
+        this.counterId = counterId;
+    }
 }

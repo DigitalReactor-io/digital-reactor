@@ -6,9 +6,14 @@ package io.digitalreactor.web.dto;
 public class NewAccountUI {
     private String email;
     private Long counterId;
-    private String sessionToken;
+    private String name;
+    private String sessionId;
 
     public NewAccountUI() {
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
@@ -19,7 +24,7 @@ public class NewAccountUI {
         return counterId;
     }
 
-    public String getSessionToken() {
-        return sessionToken;
+    public String getSessionId() {
+        return sessionId;
     }
 }

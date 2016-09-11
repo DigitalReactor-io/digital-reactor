@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
         "io.digitalreactor.web.controller",
         "io.digitalreactor.web.ws",
         "io.digitalreactor.config",
-        "io.digitalreactor.web.config"
 })
 public class Application {
     public static void main(String[] args) throws Exception {
