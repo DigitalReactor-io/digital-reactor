@@ -1,4 +1,4 @@
-package io.digitalreactor.web.dto;
+package io.digitalreactor.web.contract.dto;
 
 /**
  * Created by MStepachev on 08.09.2016.

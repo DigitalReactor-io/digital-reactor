@@ -1,6 +1,4 @@
-package io.digitalreactor.web.dto;
-
-import io.digitalreactor.vendor.yandex.model.Counter;
+package io.digitalreactor.web.contract.dto;
 
 /**
  * Created by ingvard on 10.09.16.
@@ -12,11 +10,6 @@ public class CounterUI {
     public CounterUI(String name, String counterId) {
         this.name = name;
         this.counterId = counterId;
-    }
-
-    public CounterUI(Counter counter) {
-        this.name = counter.getName();
-        this.counterId = String.valueOf(counter.getId());
     }
 
     public String getName() {

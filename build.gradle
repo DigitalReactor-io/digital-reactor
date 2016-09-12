@@ -24,6 +24,7 @@ repositories {
 dependencies {
     //Module
     compile project('digital-reactor-web')
+    compile project('digital-reactor-web-contract')
     compile 'io.digitalreactor:digital-reactor-ui:1.0-SNAPSHOT'
 
     //Security

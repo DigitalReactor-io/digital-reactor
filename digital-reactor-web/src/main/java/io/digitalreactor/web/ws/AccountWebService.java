@@ -2,7 +2,7 @@ package io.digitalreactor.web.ws;
 
 import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.web.contract.AccountWebServiceContract;
-import io.digitalreactor.web.dto.EmailCheckUI;
+import io.digitalreactor.web.contract.dto.EmailCheckUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

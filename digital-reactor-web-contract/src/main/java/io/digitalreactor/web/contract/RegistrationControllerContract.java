@@ -1,7 +1,7 @@
 package io.digitalreactor.web.contract;
 
-import io.digitalreactor.web.dto.CounterUI;
-import io.digitalreactor.web.dto.NewAccountUI;
+import io.digitalreactor.web.contract.dto.CounterUI;
+import io.digitalreactor.web.contract.dto.NewAccountUI;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;

@@ -1,2 +1,3 @@
 rootProject.name = 'digital-reactor-web'
+include ':digital-reactor-web-contract'
 

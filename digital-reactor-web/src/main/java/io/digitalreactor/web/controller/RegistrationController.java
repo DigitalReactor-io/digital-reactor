@@ -2,26 +2,20 @@ package io.digitalreactor.web.controller;
 
 import io.digitalreactor.core.service.AccountService;
 import io.digitalreactor.core.service.TemporalTokenStorage;
-import io.digitalreactor.dao.AccountRepository;
-import io.digitalreactor.model.Account;
-import io.digitalreactor.model.Site;
-import io.digitalreactor.model.YandexCounterAccess;
 import io.digitalreactor.vendor.yandex.model.Counter;
 import io.digitalreactor.vendor.yandex.serivce.CounterApiService;
 import io.digitalreactor.vendor.yandex.serivce.GrantCodeToTokenResolver;
 import io.digitalreactor.web.contract.RegistrationControllerContract;
-import io.digitalreactor.web.dto.CounterUI;
-import io.digitalreactor.web.dto.NewAccountUI;
+import io.digitalreactor.web.contract.dto.CounterUI;
+import io.digitalreactor.web.contract.dto.NewAccountUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static io.digitalreactor.web.contract.RegistrationControllerContract.CONTROLLER_PATH;
 
@@ -63,7 +57,9 @@ public class RegistrationController implements RegistrationControllerContract {
         List<Counter> counters = counterApiService.getCounters(token);
 
         //TODO[St.maxim] use mapper
-        return counters.stream().map(CounterUI::new).collect(Collectors.toList());
+        return counters.stream()
+                .map(counter -> new CounterUI(counter.getName(), String.valueOf(counter.getId())))
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(value = NEW_ACCOUNT_PATH, method = RequestMethod.POST)

@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':digital-reactor-web-contract')
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile("org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE")
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'

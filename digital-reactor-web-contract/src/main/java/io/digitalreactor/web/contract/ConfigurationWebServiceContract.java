@@ -1,9 +1,5 @@
 package io.digitalreactor.web.contract;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 /**
  * Created by ingvard on 10.09.16.
  */

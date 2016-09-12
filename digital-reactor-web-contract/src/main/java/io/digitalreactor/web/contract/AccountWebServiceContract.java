@@ -1,6 +1,6 @@
 package io.digitalreactor.web.contract;
 
-import io.digitalreactor.web.dto.EmailCheckUI;
+import io.digitalreactor.web.contract.dto.EmailCheckUI;
 
 /**
  * Created by ingvard on 10.09.16.
