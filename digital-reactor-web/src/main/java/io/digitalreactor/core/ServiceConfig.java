@@ -3,6 +3,7 @@ package io.digitalreactor.core;
 import io.digitalreactor.core.service.AccountService;
 import io.digitalreactor.core.service.EmailSenderService;
 import io.digitalreactor.dao.AccountRepository;
+import io.digitalreactor.dao.SummaryStatusRepository;
 import io.digitalreactor.model.TemplateMnemonicEnum;
 import io.digitalreactor.core.service.EmailTemplateService;
 import io.digitalreactor.core.service.TemporalTokenStorage;
@@ -48,10 +49,11 @@ public class ServiceConfig {
     @Bean
     public AccountService accountService(
             AccountRepository accountRepository,
+            SummaryStatusRepository summaryStatusRepository,
             PasswordEncoder passwordEncoder,
             EmailSenderService emailSenderService
     ) {
-        return new AccountService(accountRepository, passwordEncoder, emailSenderService);
+        return new AccountService(accountRepository, summaryStatusRepository, passwordEncoder, emailSenderService);
     }
 
     @Bean
