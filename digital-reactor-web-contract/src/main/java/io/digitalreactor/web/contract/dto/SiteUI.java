@@ -5,9 +5,15 @@ package io.digitalreactor.web.contract.dto;
  */
 public class SiteUI {
     private String name;
+    private String id;
 
-    public SiteUI(String name) {
+    public SiteUI(String name, String id) {
         this.name = name;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

@@ -6,10 +6,10 @@ import java.time.LocalDate;
  * Created by MStepachev on 12.09.2016.
  */
 public class SummaryStatusUI {
-    private SummaryStatusEnum status;
+    private String status;
     private LocalDate date;
 
-    public SummaryStatusUI(SummaryStatusEnum status, LocalDate date) {
+    public SummaryStatusUI(String status, LocalDate date) {
         this.status = status;
         this.date = date;
     }
@@ -18,7 +18,7 @@ public class SummaryStatusUI {
         return date;
     }
 
-    public SummaryStatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 }

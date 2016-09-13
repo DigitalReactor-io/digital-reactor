@@ -39,6 +39,6 @@ public class AccountWebService implements AccountWebServiceContract {
         String email = auth.getName();
         Account account = accountRepository.findByEmail(email);
 
-        return account.getSites().stream().map(site -> new SiteUI(site.getName())).collect(Collectors.toList());
+        return account.getSites().stream().map(site -> new SiteUI(site.getName(), site.getId())).collect(Collectors.toList());
     }
 }

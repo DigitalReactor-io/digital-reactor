@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * Created by MStepachev on 13.09.2016.
  */
 public interface SummaryStatusRepository extends MongoRepository<SummaryStatus, String> {
-
+    SummaryStatus findByAccountIdAndSiteId(String accountId, String siteId);
 }

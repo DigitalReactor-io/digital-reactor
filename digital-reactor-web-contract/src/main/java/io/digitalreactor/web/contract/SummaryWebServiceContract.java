@@ -16,7 +16,7 @@ import java.util.Map;
 
 public interface SummaryWebServiceContract {
     final String WEB_SERVICE_PATH = "summaries";
-    final String SITE_STATUS_PATH = "status/{siteName}";
+    final String SITE_STATUS_PATH = "status/{siteId}";
 
-    SummaryStatusUI getSummaryStatus(String siteName);
+    SummaryStatusUI getSummaryStatus(String siteId);
 }
