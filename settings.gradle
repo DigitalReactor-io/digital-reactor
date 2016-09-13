@@ -1,3 +1,3 @@
 rootProject.name = 'digital-reactor'
 
-include 'digital-reactor-web', 'digital-reactor-web-contract'
+include 'digital-reactor-web', 'digital-reactor-web-contract', 'digital-reactor-report'
