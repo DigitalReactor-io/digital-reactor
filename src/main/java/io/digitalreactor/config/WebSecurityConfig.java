@@ -1,5 +1,6 @@
 package io.digitalreactor.config;
 
+import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.web.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +27,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers(
+                        "/configuration/**",
+                        "/accounts/**",
+                        "/registration.html",
+                        "/js/**",
+                        "/css/**",
+                        "/images/**",
+                        "/fonts/**"
+                ).permitAll()
                 .anyRequest().authenticated();
 
         http.formLogin()
-                .loginPage("/login")
+                .loginPage("/login.html")
                 .permitAll().defaultSuccessUrl("/");
 
         http.logout()
@@ -42,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(new UserDetailsServiceImpl()).passwordEncoder(passwordEncoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth, AccountRepository accountRepository) throws Exception {
+        auth.userDetailsService(new UserDetailsServiceImpl(accountRepository)).passwordEncoder(passwordEncoder());
     }
 }
