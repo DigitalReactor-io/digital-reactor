@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.lang.annotation.Inherited;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +18,8 @@ import java.util.Map;
 public interface SummaryWebServiceContract {
     final String WEB_SERVICE_PATH = "summaries";
     final String SITE_STATUS_PATH = "status/{siteId}";
+    final String SUMMARY_PATH = "{summaryId}";
 
     SummaryStatusUI getSummaryStatus(String siteId);
+    List<Object> getSummary(String summaryId);
 }
