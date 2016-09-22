@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import java.util.List;
+
 /**
  * Created by MStepachev on 13.09.2016.
  */
@@ -35,5 +37,10 @@ public class SummaryWebService implements SummaryWebServiceContract {
         SummaryStatus summaryStatus = summaryStatusRepository.findByAccountIdAndSiteId(account.getId(), siteId);
 
         return new SummaryStatusUI(summaryStatus.getStatus().name(), summaryStatus.getDate());
+    }
+
+    @Override
+    public List<Object> getSummary(String summaryId) {
+        return null;
     }
 }
