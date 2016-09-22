@@ -1,6 +1,5 @@
 package io.digitalreactor.model;
 
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

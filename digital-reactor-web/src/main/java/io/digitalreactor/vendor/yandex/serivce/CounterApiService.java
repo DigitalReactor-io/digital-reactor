@@ -5,8 +5,6 @@ import io.digitalreactor.vendor.yandex.model.Counter;
 import io.digitalreactor.vendor.yandex.model.CounterResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

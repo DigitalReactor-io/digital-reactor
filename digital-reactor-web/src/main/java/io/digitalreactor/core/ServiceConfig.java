@@ -2,16 +2,15 @@ package io.digitalreactor.core;
 
 import io.digitalreactor.core.service.AccountService;
 import io.digitalreactor.core.service.EmailSenderService;
+import io.digitalreactor.core.service.EmailTemplateService;
+import io.digitalreactor.core.service.TemporalTokenStorage;
 import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.dao.SummaryStatusRepository;
 import io.digitalreactor.model.TemplateMnemonicEnum;
-import io.digitalreactor.core.service.EmailTemplateService;
-import io.digitalreactor.core.service.TemporalTokenStorage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

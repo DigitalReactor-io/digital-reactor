@@ -11,4 +11,12 @@ public class YandexCounterAccess {
         this.token = token;
         this.counterId = counterId;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getCounterId() {
+        return counterId;
+    }
 }

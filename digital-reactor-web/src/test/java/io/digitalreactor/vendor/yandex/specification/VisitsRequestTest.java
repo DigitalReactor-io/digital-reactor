@@ -6,13 +6,10 @@ import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.BootstrapWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by MStepachev on 22.09.2016.

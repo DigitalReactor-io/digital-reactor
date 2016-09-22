@@ -24,6 +24,14 @@ public class SummaryStatus {
         this.date = date;
     }
 
+    public void setStatus(SummaryStatusEnum status) {
+        this.status = status;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public String getAccountId() {
         return accountId;
     }
