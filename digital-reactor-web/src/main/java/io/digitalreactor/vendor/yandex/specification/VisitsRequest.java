@@ -21,7 +21,7 @@ public class VisitsRequest implements Request {
         this.oauthToken = oauthToken;
         this.counterId = counterId;
         this.endIntervalDate = endIntervalDate;
-        this.startIntervalDate = LocalDate.parse(endIntervalDate).minusMonths(1).toString();
+        this.startIntervalDate = LocalDate.parse(endIntervalDate).minusMonths(2).withDayOfMonth(1).toString();
     }
 
     @Override

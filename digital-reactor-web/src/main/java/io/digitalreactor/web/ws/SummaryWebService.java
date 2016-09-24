@@ -1,11 +1,13 @@
 package io.digitalreactor.web.ws;
 
 import io.digitalreactor.dao.AccountRepository;
+import io.digitalreactor.dao.SummaryRepository;
 import io.digitalreactor.dao.SummaryStatusRepository;
 import io.digitalreactor.model.Account;
 import io.digitalreactor.model.SummaryStatus;
 import io.digitalreactor.web.contract.SummaryWebServiceContract;
 import io.digitalreactor.web.contract.dto.SummaryStatusUI;
+import io.digitalreactor.web.contract.dto.report.Summary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,9 @@ public class SummaryWebService implements SummaryWebServiceContract {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private SummaryRepository summaryRepository;
+
     @RequestMapping(value = SITE_STATUS_PATH, method = RequestMethod.GET)
     @ResponseBody
     @Override
@@ -36,11 +41,13 @@ public class SummaryWebService implements SummaryWebServiceContract {
         Account account = accountRepository.findByEmail(email);
         SummaryStatus summaryStatus = summaryStatusRepository.findByAccountIdAndSiteId(account.getId(), siteId);
 
-        return new SummaryStatusUI(summaryStatus.getStatus().name(), summaryStatus.getDate());
+        return new SummaryStatusUI(summaryStatus.getStatus().name(), summaryStatus.getDate(), summaryStatus.getId());
     }
 
+    @RequestMapping(value = SUMMARY_TASK_PATH, method = RequestMethod.GET)
+    @ResponseBody
     @Override
-    public List<Object> getSummary(String summaryId) {
-        return null;
+    public Summary getSummary(@PathVariable String summaryTaskId) {
+        return summaryRepository.findByTaskId(summaryTaskId);
     }
 }

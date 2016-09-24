@@ -1,6 +1,7 @@
 package io.digitalreactor;
 
 import io.digitalreactor.core.ServiceConfig;
+import io.digitalreactor.report.ReportConfig;
 import io.digitalreactor.ui.WebApp;
 import io.digitalreactor.vendor.yandex.YandexServiceConfig;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +24,8 @@ public class Application {
         SpringApplication.run(new Class<?>[]{
                 Application.class,
                 ServiceConfig.class,
-                YandexServiceConfig.class
+                YandexServiceConfig.class,
+                ReportConfig.class
         }, args);
     }
 }

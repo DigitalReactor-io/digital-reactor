@@ -1,6 +1,7 @@
 package io.digitalreactor.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 
@@ -9,6 +10,8 @@ import java.time.LocalDate;
  */
 @Document(collection = "summariesStatus")
 public class SummaryStatus {
+    @Field
+    private String id;
     private String accountId;
     private String siteId;
     private SummaryStatusEnum status;
@@ -22,6 +25,10 @@ public class SummaryStatus {
         this.siteId = siteId;
         this.status = status;
         this.date = date;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setStatus(SummaryStatusEnum status) {
