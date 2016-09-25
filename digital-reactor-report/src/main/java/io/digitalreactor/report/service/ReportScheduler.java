@@ -8,7 +8,9 @@ import io.digitalreactor.model.SummaryStatus;
 import io.digitalreactor.model.SummaryStatusEnum;
 import io.digitalreactor.model.YandexCounterAccess;
 import io.digitalreactor.report.builder.VisitsDuringMothReportBuilder;
+import io.digitalreactor.vendor.yandex.model.GoalResponse;
 import io.digitalreactor.vendor.yandex.model.Response;
+import io.digitalreactor.vendor.yandex.serivce.GoalApiService;
 import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
 import io.digitalreactor.vendor.yandex.specification.VisitsRequest;
 import io.digitalreactor.web.contract.dto.report.Summary;
@@ -37,7 +39,10 @@ public class ReportScheduler {
     private ReportApiService reportApiService;
     @Autowired
     private SummaryRepository summaryRepository;
+    @Autowired
+    private GoalApiService goalApiService;
 
+    //TODO[St.maxim] this method just a prototype
     @Scheduled(fixedRate = 5000)
     public void executeAvailableTask() {
 
@@ -57,6 +62,8 @@ public class ReportScheduler {
 
         LocalDate lastFullDay = LocalDate.now().minusDays(1);
         logger.info("Got site information for: {} and going to load data", account.getSites().get(0).getName());
+
+        GoalResponse goals = goalApiService.getGoals(yandexAccess.getCounterId(), yandexAccess.getToken());
 
         Response response = reportApiService.findAllBy(new VisitsRequest(yandexAccess.getToken(), yandexAccess.getCounterId(), lastFullDay.toString()));
         List<Double> visitMetrika = response.getDatas().get(0).getMetrics().get(0);

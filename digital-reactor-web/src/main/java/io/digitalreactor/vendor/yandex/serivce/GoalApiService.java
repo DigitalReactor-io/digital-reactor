@@ -1,8 +1,7 @@
 package io.digitalreactor.vendor.yandex.serivce;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.digitalreactor.vendor.yandex.model.Counter;
-import io.digitalreactor.vendor.yandex.model.CounterResponse;
+import io.digitalreactor.vendor.yandex.model.GoalResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -11,15 +10,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 /**
- * Created by MStepachev on 09.09.2016.
+ * Created by ingvard on 24.09.16.
  */
-public class CounterApiService {
-    private static final Logger logger = LoggerFactory.getLogger(CounterApiService.class);
+public class GoalApiService {
 
-    public static final String COUNTETS = "/management/v1/counters?oauth_token=";
+    private static final Logger logger = LoggerFactory.getLogger(GoalApiService.class);
+
+    public static final String GOALS = "/management/v1/counter/%s/goals?oauth_token=%s";
+
 
     private final String applicationAuth;
     private final String apiUrl;
@@ -27,37 +27,33 @@ public class CounterApiService {
     private final CloseableHttpClient httpClient;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public CounterApiService(CloseableHttpClient httpClient, String apiUrl, String applicationAuth) {
+    public GoalApiService(CloseableHttpClient httpClient, String apiUrl, String applicationAuth) {
         this.applicationAuth = applicationAuth;
         this.apiUrl = apiUrl;
         this.httpClient = httpClient;
     }
 
-    public List<Counter> getCounters(String clientToken) {
-        //TODO[St.maxim] error resolve
+    public GoalResponse getGoals(String counterId, String accessToken) {
         try {
-            CounterResponse counterResponse = getCounterResponse(request(clientToken));
-
-            return counterResponse.getCounters();
+            return getGoalResponse(request(counterId, accessToken));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //&oauth_token=
         return null;
     }
 
-    private HttpGet request(String accessToken) throws UnsupportedEncodingException {
-        HttpGet httpGet = new HttpGet("https://" + apiUrl + COUNTETS + accessToken);
+    private HttpGet request(String counterId, String accessToken) throws UnsupportedEncodingException {
+        HttpGet httpGet = new HttpGet("https://" + apiUrl + String.format(GOALS, counterId, accessToken));
         httpGet.addHeader("Authorization", applicationAuth);
 
         return httpGet;
     }
 
-    private CounterResponse getCounterResponse(HttpGet request) throws IOException {
+    private GoalResponse getGoalResponse(HttpGet request) throws IOException {
         return httpClient.execute(request, response -> {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
-                return mapper.readValue(response.getEntity().getContent(), CounterResponse.class);
+                return mapper.readValue(response.getEntity().getContent(), GoalResponse.class);
             } else {
                 //TODO[St.maxim] custom exception
                 throw new RuntimeException("Gotten: " + statusCode + IOUtils.toString(response.getEntity().getContent(), "UTF-8"));

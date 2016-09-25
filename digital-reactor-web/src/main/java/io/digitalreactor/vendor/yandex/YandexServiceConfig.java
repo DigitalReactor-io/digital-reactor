@@ -1,6 +1,7 @@
 package io.digitalreactor.vendor.yandex;
 
 import io.digitalreactor.vendor.yandex.serivce.CounterApiService;
+import io.digitalreactor.vendor.yandex.serivce.GoalApiService;
 import io.digitalreactor.vendor.yandex.serivce.GrantCodeToTokenResolver;
 import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -50,7 +51,12 @@ public class YandexServiceConfig {
 
     @Bean
     public CounterApiService counterApiService(CloseableHttpClient httpClient) {
-        return new CounterApiService(httpClient, apiUrl, applicationId, applicationAuth, clientSecret);
+        return new CounterApiService(httpClient, apiUrl,  applicationAuth);
+    }
+
+    @Bean
+    public GoalApiService goalApiService(CloseableHttpClient httpClient) {
+        return new GoalApiService(httpClient, apiUrl,  applicationAuth);
     }
 
     @Bean
