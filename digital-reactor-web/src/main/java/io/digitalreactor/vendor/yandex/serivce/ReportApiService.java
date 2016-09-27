@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -31,7 +32,10 @@ public class ReportApiService {
             return httpClient.execute(request(request.toQuery()), response -> {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode == 200) {
-                    return mapper.readValue(response.getEntity().getContent(), Response.class);
+                    String jasonResponse = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+                    logger.debug(jasonResponse);
+
+                    return mapper.readValue(jasonResponse, Response.class);
                 } else {
                     //TODO[St.maxim] custom exception
                     throw new RuntimeException("Gotten: " + statusCode + IOUtils.toString(response.getEntity().getContent(), "UTF-8"));

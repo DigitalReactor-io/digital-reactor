@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by flaidzeres on 12.06.2016.
@@ -87,10 +88,10 @@ public class Response {
 
 
     public static class Data {
-        private List<String> dimensions;
+        private List<Map<String, String>> dimensions;
         private List<List<Double>> metrics;
 
-        public List<String> getDimensions() {
+        public List<Map<String, String>> getDimensions() {
             return dimensions;
         }
 
