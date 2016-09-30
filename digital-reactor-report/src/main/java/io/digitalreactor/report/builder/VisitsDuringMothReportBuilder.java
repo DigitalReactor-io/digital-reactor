@@ -1,5 +1,6 @@
 package io.digitalreactor.report.builder;
 
+import io.digitalreactor.report.ReportUtil;
 import io.digitalreactor.web.contract.dto.report.ActionEnum;
 import io.digitalreactor.web.contract.dto.report.VisitsDuringMonthReportDto;
 
@@ -68,7 +69,7 @@ public class VisitsDuringMothReportBuilder {
 
         return new VisitsDuringMonthReportDto(
                 total, trendChangePercent, action,
-                VisitsDuringMonthReportDto.visitsListWithDay(
+                ReportUtil.visitsListWithDay(
                         rowData.getCurrent30Days().stream().map(Double::intValue).collect(Collectors.toList()),
                         rowData.getLastFullDay()
                 ),
