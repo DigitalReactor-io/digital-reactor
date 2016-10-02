@@ -19,12 +19,16 @@ public class ReferringSourceWitGoalsRequest implements Request {
     private final String startIntervalDate;
     private final List<String> goalsIds;
 
-    public ReferringSourceWitGoalsRequest(String oauthToken, String counterId, List<String> goalsIds, String endIntervalDate) {
+    public ReferringSourceWitGoalsRequest(String oauthToken, String counterId, LocalDate startIntervalDate, LocalDate endIntervalDate, List<String> goalsIds) {
+        this(oauthToken, counterId, startIntervalDate.toString(), endIntervalDate.toString(), goalsIds);
+    }
+
+    public ReferringSourceWitGoalsRequest(String oauthToken, String counterId, String startIntervalDate, String endIntervalDate, List<String> goalsIds) {
         this.oauthToken = oauthToken;
         this.counterId = counterId;
-        this.goalsIds = goalsIds;
         this.endIntervalDate = endIntervalDate;
-        this.startIntervalDate = LocalDate.parse(endIntervalDate).minusMonths(2).withDayOfMonth(1).toString();
+        this.startIntervalDate = startIntervalDate;
+        this.goalsIds = goalsIds;
     }
 
     private String makeListOfGoals(List<String> goalsIds) {

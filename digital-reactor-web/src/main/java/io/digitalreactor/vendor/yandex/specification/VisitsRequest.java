@@ -17,12 +17,20 @@ public class VisitsRequest implements Request {
     private final String endIntervalDate;
     private final String startIntervalDate;
 
-    public VisitsRequest(String oauthToken, String counterId, String endIntervalDate) {
+    public VisitsRequest(String oauthToken, String counterId, LocalDate startIntervalDate, LocalDate endIntervalDate) {
+        this.oauthToken = oauthToken;
+        this.counterId = counterId;
+        this.endIntervalDate = endIntervalDate.toString();
+        this.startIntervalDate = startIntervalDate.toString();
+    }
+
+    public VisitsRequest(String oauthToken, String counterId,  String startIntervalDate, String endIntervalDate) {
         this.oauthToken = oauthToken;
         this.counterId = counterId;
         this.endIntervalDate = endIntervalDate;
-        this.startIntervalDate = LocalDate.parse(endIntervalDate).minusMonths(2).withDayOfMonth(1).toString();
+        this.startIntervalDate = startIntervalDate;
     }
+
 
     @Override
     public String toQuery() {

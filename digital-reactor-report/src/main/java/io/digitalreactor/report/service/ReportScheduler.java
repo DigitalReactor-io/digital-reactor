@@ -7,14 +7,19 @@ import io.digitalreactor.model.Account;
 import io.digitalreactor.model.SummaryStatus;
 import io.digitalreactor.model.SummaryStatusEnum;
 import io.digitalreactor.model.YandexCounterAccess;
+import io.digitalreactor.report.ReportUtil;
+import io.digitalreactor.report.builder.ReferringSourceBuilder;
 import io.digitalreactor.report.builder.VisitsDuringMothReportBuilder;
+import io.digitalreactor.report.model.TwoMonthInterval;
 import io.digitalreactor.vendor.yandex.model.GoalResponse;
 import io.digitalreactor.vendor.yandex.model.Response;
 import io.digitalreactor.vendor.yandex.serivce.GoalApiService;
 import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
+import io.digitalreactor.vendor.yandex.specification.ReferringSourceWitGoalsRequest;
 import io.digitalreactor.vendor.yandex.specification.VisitsRequest;
 import io.digitalreactor.web.contract.dto.report.Summary;
 import io.digitalreactor.web.contract.dto.report.VisitsDuringMonthReportDto;
+import io.digitalreactor.web.contract.dto.report.referringsource.ReferringSourceReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,62 +48,73 @@ public class ReportScheduler {
     private GoalApiService goalApiService;
 
     //TODO[St.maxim] this method just a prototype
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 10000)
     public void executeAvailableTask() {
-
-        List<Object> reportsCollections = new ArrayList<>();
-
         SummaryStatus summaryStatus = getNewSummaryStatusAndMarkAsLoading();
-        if (summaryStatus == null) {
-            return;
+
+        try {
+            List<Object> reportsCollections = new ArrayList<>();
+
+            if (summaryStatus == null) {
+                return;
+            }
+
+            logger.info("Got new task for accountId: {} siteId: {}", summaryStatus.getAccountId(), summaryStatus.getSiteId());
+
+            Account account = accountRepository.findByAccountIdAndSiteId(summaryStatus.getAccountId(), summaryStatus.getSiteId());
+
+            //TODO check account == null
+            YandexCounterAccess yandexAccess = account.getSites().get(0).getYandexAccess();
+            logger.info("Got site information for: {} and going to load data", account.getSites().get(0).getName());
+
+            reportsCollections.add(visitsDuringMonthReportDto(yandexAccess.getCounterId(), yandexAccess.getToken()));
+            reportsCollections.add(referringSourceReport(yandexAccess.getCounterId(), yandexAccess.getToken()));
+
+            summaryRepository.save(new Summary(summaryStatus.getId(), reportsCollections));
+            summaryStatus.setStatus(SummaryStatusEnum.DONE);
+            summaryStatusRepository.save(summaryStatus);
+
+            logger.info("Task for accountId: {} siteId: {} completed", summaryStatus.getAccountId(), summaryStatus.getSiteId());
+        } catch (Exception e) {
+            //TODO[St.maxim] only for test
+            summaryStatus.setStatus(SummaryStatusEnum.NEW);
+            summaryStatusRepository.save(summaryStatus);
+            throw e;
         }
+    }
 
-        logger.info("Got new task for accountId: {} siteId: {}", summaryStatus.getAccountId(), summaryStatus.getSiteId());
+    private VisitsDuringMonthReportDto visitsDuringMonthReportDto(String counterId, String token) {
+        VisitsDuringMothReportBuilder visitsDuringMothReportBuilder = new VisitsDuringMothReportBuilder();
+        TwoMonthInterval interval = TwoMonthInterval.previous(LocalDate.now());
+        Response response = reportApiService.findAllBy(new VisitsRequest(token, counterId, interval.first(), interval.last()));
 
-        Account account = accountRepository.findByAccountIdAndSiteId(summaryStatus.getAccountId(), summaryStatus.getSiteId());
-
-        //TODO check account == null
-        YandexCounterAccess yandexAccess = account.getSites().get(0).getYandexAccess();
-
-        LocalDate lastFullDay = LocalDate.now().minusDays(1);
-        logger.info("Got site information for: {} and going to load data", account.getSites().get(0).getName());
-
-        GoalResponse goals = goalApiService.getGoals(yandexAccess.getCounterId(), yandexAccess.getToken());
-
-        Response response = reportApiService.findAllBy(new VisitsRequest(yandexAccess.getToken(), yandexAccess.getCounterId(), lastFullDay.toString()));
         List<Double> visitMetrika = response.getDatas().get(0).getMetrics().get(0);
 
-        VisitsDuringMothReportBuilder visitsDuringMothReportBuilder = new VisitsDuringMothReportBuilder();
-
-        LocalDate lastMonth = lastFullDay.minusMonths(1);
-        LocalDate lastTwoMonth = lastFullDay.minusMonths(2);
-
-        //LocalDate.parse(endIntervalDate).minusMonths(2).withDayOfMonth(1).toString();
-        //lastFullDay.get
-
-        //.lengthOfMonth()
-
-        List<Double> current30Days = visitMetrika.subList(visitMetrika.size() - 31, visitMetrika.size() - 1);
-        List<Double> monthAgo = visitMetrika.subList(lastTwoMonth.lengthOfMonth(), lastTwoMonth.lengthOfMonth() + lastMonth.lengthOfMonth() - 1);
-        List<Double> twoMonthAgo = visitMetrika.subList(0, lastTwoMonth.lengthOfMonth() - 1);
-
+        //TODO[St.maxim] input format for this report changed fix it "getSecondMonthMetrics"
         VisitsDuringMothReportBuilder.VisitsDuringMonthRowData visitsDuringMonthRowData
                 = new VisitsDuringMothReportBuilder.VisitsDuringMonthRowData(
-                current30Days,
-                monthAgo,
-                twoMonthAgo,
-                lastFullDay
+                ReportUtil.getSecondMonthMetrics(interval, visitMetrika),
+                ReportUtil.getFirstMonthMetrics(interval, visitMetrika),
+                ReportUtil.getSecondMonthMetrics(interval, visitMetrika),
+                interval.last()
         );
 
-        VisitsDuringMonthReportDto report = visitsDuringMothReportBuilder.build(visitsDuringMonthRowData);
+        return visitsDuringMothReportBuilder.build(visitsDuringMonthRowData);
+    }
 
-        reportsCollections.add(report);
+    private ReferringSourceReport referringSourceReport(String counterId, String token) {
+        TwoMonthInterval interval = TwoMonthInterval.previous(LocalDate.now());
+        GoalResponse goals = goalApiService.getGoals(counterId, token);
 
-        summaryRepository.save(new Summary(summaryStatus.getId(), reportsCollections));
-        summaryStatus.setStatus(SummaryStatusEnum.DONE);
-        summaryStatusRepository.save(summaryStatus);
+        Response rowReferringSource = reportApiService.findAllBy(new ReferringSourceWitGoalsRequest(
+                token,
+                counterId,
+                interval.first(),
+                interval.last(),
+                goals.getGoalsIds()
+        ));
 
-        logger.info("Task for accountId: {} siteId: {} completed", summaryStatus.getAccountId(), summaryStatus.getSiteId());
+        return new ReferringSourceBuilder().build(interval, goals.getGoals(), rowReferringSource.getDatas());
     }
 
     private SummaryStatus getNewSummaryStatusAndMarkAsLoading() {

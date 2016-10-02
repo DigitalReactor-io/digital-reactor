@@ -35,8 +35,11 @@ public class ReferringSourceWitGoalsRequestTest {
         Response visitsMetrics = reportApiService.findAllBy(new ReferringSourceWitGoalsRequest(
                 TOKEN,
                 COUNTER_ID,
-                goals.getGoalsIds(),
-                LocalDate.now().toString()
+                LocalDate.now().minusMonths(2).toString(),
+                LocalDate.now().toString(),
+                goals.getGoalsIds()
         ));
+
+
     }
 }

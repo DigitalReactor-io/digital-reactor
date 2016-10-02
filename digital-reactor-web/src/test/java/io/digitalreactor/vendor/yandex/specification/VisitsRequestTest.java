@@ -25,6 +25,7 @@ public class VisitsRequestTest {
         Response visitsMetrics = reportApiService.findAllBy(new VisitsRequest(
                 "AQAAAAAUQvf-AAK_6WmdQtnlGUIekdWX2d6RnU8",
                 "31424723",
+                LocalDate.now().toString(),
                 LocalDate.now().toString()
         ));
     }
