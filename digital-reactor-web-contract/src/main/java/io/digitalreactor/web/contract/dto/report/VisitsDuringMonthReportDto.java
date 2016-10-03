@@ -53,26 +53,4 @@ public class VisitsDuringMonthReportDto {
     public String getReason() {
         return reason;
     }
-
-    //TODO[St.maxim] move to util class
-    public static List<VisitDto> visitsListWithDay(List<Integer> visits, LocalDate startTime) {
-
-        List<VisitDto> result = new ArrayList<VisitDto>();
-        LocalDate pointerDate = startTime;
-
-        for (int visit : visits) {
-            result.add(new VisitDto(
-                    visit,
-                    pointerDate.toString(),
-                    isHoliday(pointerDate) ? VisitDto.DayType.HOLIDAY : VisitDto.DayType.WEEKDAY
-            ));
-            pointerDate = pointerDate.plusDays(1);
-        }
-
-        return result;
-    }
-
-    private static boolean isHoliday(LocalDate date) {
-        return date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY;
-    }
 }

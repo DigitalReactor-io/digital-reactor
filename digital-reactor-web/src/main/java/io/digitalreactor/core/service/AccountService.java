@@ -1,17 +1,14 @@
 package io.digitalreactor.core.service;
 
+import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.dao.SummaryStatusRepository;
 import io.digitalreactor.model.*;
-import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.vendor.yandex.model.Counter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by ingvard on 11.09.16.
