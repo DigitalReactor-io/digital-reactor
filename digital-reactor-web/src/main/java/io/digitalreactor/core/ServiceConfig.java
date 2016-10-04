@@ -24,7 +24,6 @@ import java.util.Properties;
  * Created by MStepachev on 09.09.2016.
  */
 @Configuration
-@PropertySource("classpath:mail.properties")
 public class ServiceConfig {
 
     @Value("${mail.server}")

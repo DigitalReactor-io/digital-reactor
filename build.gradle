@@ -16,6 +16,28 @@ apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 
+bootRun {
+    //Dev environment property
+    environment = [
+            //External api
+            "vendor.yandex.oauth.url" : "oauth.yandex.ru",
+            "vendor.yandex.api.url" : "api-metrika.yandex.ru",
+            "vendor.yandex.api.client.secret" : "b970bc1b38b7419aa27f8b8c3d5d13e0",
+            "vendor.yandex.api.application.id" : "b26e324d5a134168b090b3f23e77a0e7",
+            "vendor.yandex.api.application.auth" : "Basic YjI2ZTMyNGQ1YTEzNDE2OGIwOTBiM2YyM2U3N2EwZTc6Yjk3MGJjMWIzOGI3NDE5YWEyN2Y4YjhjM2Q1ZDEzZTA=",
+
+            //Mail sender
+            "mail.server": "smtp.yandex.ru",
+            "mail.port": 465,
+            "mail.ssl": true,
+            "mail.username": "DigitalReactor@yandex.ru",
+            "mail.password": "DigitalReactor123",
+            "mail.address.sender": "DigitalReactor@yandex.ru",
+
+            "mongodb.host" : "localhost"
+    ]
+}
+
 repositories {
     mavenCentral()
     mavenLocal()

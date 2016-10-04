@@ -22,7 +22,6 @@ import java.security.NoSuchAlgorithmException;
  * Created by MStepachev on 09.09.2016.
  */
 @Configuration
-@PropertySource("classpath:yandex.properties")
 public class YandexServiceConfig {
 
     @Value("${vendor.yandex.oauth.url}")
