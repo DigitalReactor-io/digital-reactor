@@ -73,7 +73,7 @@ public class VisitsDuringMothReportBuilder {
                         rowData.getCurrent30Days().stream().map(Double::intValue).collect(Collectors.toList()),
                         rowData.getLastFullDay()
                 ),
-                "Текст для причины"
+                "На посещаемость может влиять сезонность, отключение рекламного канала или снижение видимости сайта в поисковой выдачи."
         );
     }
 
