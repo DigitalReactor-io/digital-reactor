@@ -34,7 +34,10 @@ bootRun {
             "mail.password": "DigitalReactor123",
             "mail.address.sender": "DigitalReactor@yandex.ru",
 
-            "mongodb.host" : "localhost"
+            "mongodb_host" : "localhost",
+            "mongodb_logs_collection": "logs",
+            "mongodb_db" : "test"
+
     ]
 }
 
@@ -49,6 +52,13 @@ dependencies {
     compile project('digital-reactor-web-contract')
     compile project('digital-reactor-report')
     compile 'io.digitalreactor:digital-reactor-ui:1.0-SNAPSHOT'
+
+    //MongoDb appender
+    compile 'org.mongodb:mongodb-driver:3.3.0'
+
+    //
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb-log4j', version: '1.9.4.RELEASE'
+
 
     //Security
     compile 'org.springframework.security:spring-security-web:4.1.0.RELEASE'
