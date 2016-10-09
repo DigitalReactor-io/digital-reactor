@@ -1,5 +1,6 @@
 package io.digitalreactor.vendor.yandex.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ public class GoalResponse {
     private List<Goal> goals;
 
     public GoalResponse() {
+        goals = new ArrayList<>();
     }
 
     public List<Goal> getGoals() {

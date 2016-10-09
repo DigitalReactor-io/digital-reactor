@@ -27,11 +27,11 @@ public class ReportUtil {
     }
 
     public static <T> List<T> getFirstMonthMetrics(TwoMonthInterval interval, List<T> metrics) {
-        return new ArrayList<>(metrics.subList(0, interval.first().lengthOfMonth() - 1));
+        return new ArrayList<>(metrics.subList(0, interval.first().lengthOfMonth()));
     }
 
     public static <T> List<T> getSecondMonthMetrics(TwoMonthInterval interval, List<T> metrics) {
-        return new ArrayList<>(metrics.subList(interval.first().lengthOfMonth(), metrics.size() - 1));
+        return new ArrayList<>(metrics.subList(interval.first().lengthOfMonth(), metrics.size()));
     }
 
     public static List<VisitDto> visitsListWithDay(List<Integer> visits, LocalDate startTime) {

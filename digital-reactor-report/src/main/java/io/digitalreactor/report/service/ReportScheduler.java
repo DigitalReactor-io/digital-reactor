@@ -25,9 +25,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by ingvard on 13.09.16.
@@ -46,6 +48,40 @@ public class ReportScheduler {
     private SummaryRepository summaryRepository;
     @Autowired
     private GoalApiService goalApiService;
+
+    //TODO it for test must remove
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    public void setSummaryStatusRepository(SummaryStatusRepository summaryStatusRepository) {
+        this.summaryStatusRepository = summaryStatusRepository;
+    }
+
+    public void setReportApiService(ReportApiService reportApiService) {
+        this.reportApiService = reportApiService;
+    }
+
+    public void setSummaryRepository(SummaryRepository summaryRepository) {
+        this.summaryRepository = summaryRepository;
+    }
+
+    public void setGoalApiService(GoalApiService goalApiService) {
+        this.goalApiService = goalApiService;
+    }
+
+    @PostConstruct
+    public void restartBrokenTask() {
+        List<SummaryStatus> tasks = summaryStatusRepository.findAllByStatus(SummaryStatusEnum.LOADING);
+
+        List<SummaryStatus> tasksWithNewStatus = tasks.stream().map(task -> {
+            task.setStatus(SummaryStatusEnum.NEW);
+
+            return task;
+        }).collect(Collectors.toList());
+
+        summaryStatusRepository.save(tasksWithNewStatus);
+    }
 
     //TODO[St.maxim] this method just a prototype
     @Scheduled(fixedRate = 10000)

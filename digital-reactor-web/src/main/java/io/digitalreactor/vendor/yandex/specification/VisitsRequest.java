@@ -10,7 +10,7 @@ import java.time.LocalDate;
  */
 public class VisitsRequest implements Request {
 
-    private final String QUERY_TEMPLATE = "stat/v1/data/bytime?group=day&ids=%s&metrics=ym:s:visits&date1=%s&date2=%s&oauth_token=%s";
+    private final String QUERY_TEMPLATE = "stat/v1/data/bytime?group=day&ids=%s&metrics=ym:s:users&date1=%s&date2=%s&oauth_token=%s";
 
     private final String oauthToken;
     private final String counterId;

@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':digital-reactor-web')
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile(project(':digital-reactor-web'))
+    testCompile('junit:junit:4.12')
+    testCompile(group: 'org.mockito', name: 'mockito-core', version: '1.10.19')
 }

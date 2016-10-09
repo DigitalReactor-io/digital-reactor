@@ -35,13 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/images/**",
                         "/fonts/**",
-                        "/registration/**"
+                        "/registration/**",
+                        "/tilda_files/**",
+                        "/index.html",
+                        "/"
                 ).permitAll()
                 .anyRequest().authenticated();
 
         http.formLogin()
                 .loginPage("/login.html")
-                .permitAll().defaultSuccessUrl("/");
+                .permitAll().defaultSuccessUrl("/sites.html");
 
         http.logout()
                 .permitAll();
