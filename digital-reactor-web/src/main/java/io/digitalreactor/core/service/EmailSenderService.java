@@ -51,8 +51,8 @@ public class EmailSenderService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false);
         mimeMessage.setContent(msgBody, "text/html; charset=UTF-8");
         helper.setTo(toAddress);
-        helper.setSubject(subject);
-        helper.setFrom(fromAddress);
+        mimeMessage.setFrom(fromAddress);
+        mimeMessage.setSubject(subject);
 
         mailSender.send(mimeMessage);
     }
