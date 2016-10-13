@@ -130,8 +130,8 @@ public class ReportScheduler {
         VisitsDuringMothReportBuilder.VisitsDuringMonthRowData visitsDuringMonthRowData
                 = new VisitsDuringMothReportBuilder.VisitsDuringMonthRowData(
                 ReportUtil.getSecondMonthMetrics(interval, visitMetrika),
-                ReportUtil.getFirstMonthMetrics(interval, visitMetrika),
                 ReportUtil.getSecondMonthMetrics(interval, visitMetrika),
+                ReportUtil.getFirstMonthMetrics(interval, visitMetrika),
                 interval.last()
         );
 

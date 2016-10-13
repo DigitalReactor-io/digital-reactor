@@ -13,6 +13,7 @@ import io.digitalreactor.vendor.yandex.serivce.GoalApiService;
 import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
 import io.digitalreactor.vendor.yandex.specification.ReferringSourceWitGoalsRequest;
 import io.digitalreactor.vendor.yandex.specification.VisitsRequest;
+import io.digitalreactor.web.contract.dto.report.ActionEnum;
 import io.digitalreactor.web.contract.dto.report.Summary;
 import io.digitalreactor.web.contract.dto.report.VisitsDuringMonthReportDto;
 import org.apache.commons.io.FileUtils;
@@ -23,6 +24,8 @@ import org.mockito.ArgumentCaptor;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -78,9 +81,14 @@ public class FullStepsIntegrationTest {
     public void makeReferringSourceReportByRegressionData() {
         VisitsDuringMonthReportDto visitsDuringMonthReport = extractReportWithType(VisitsDuringMonthReportDto.class);
 
-        assertThat(visitsDuringMonthReport.getVisit(), is(equalTo(232)));
-        assertThat(visitsDuringMonthReport.getAction(), is(equalTo(232)));
-        assertThat(visitsDuringMonthReport.getPercent(), is(equalTo(232)));
+        List<Integer> metrics = Arrays.asList(
+                33, 27, 29, 29, 22, 22, 22, 20, 32, 36, 33, 30, 12, 15, 24, 23, 18, 29, 26, 31, 25, 21, 29, 39, 33, 40, 15, 18, 20, 24
+        );
+        assertThat(visitsDuringMonthReport.getVisit(), is(equalTo(777)));
+        assertThat(visitsDuringMonthReport.getVisitChange(), is(equalTo(12)));
+        assertThat(visitsDuringMonthReport.getAction(), is(equalTo(ActionEnum.DECREASING)));
+        assertThat(visitsDuringMonthReport.getPercent(), is(equalTo(-1.52)));
+        assertThat(visitsDuringMonthReport.getMetrics(), is(equalTo(ReportUtil.visitsListWithDay(metrics, LocalDate.of(2016, 9, 1)))));
     }
 
     private <T> T extractReportWithType(Class<T> reportType) {

@@ -3,6 +3,7 @@ package io.digitalreactor.web.contract.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by MStepachev on 12.09.2016.
@@ -10,11 +11,11 @@ import java.time.LocalDate;
 
 public class SummaryStatusUI {
     private String status;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-    private LocalDate date;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
+    private Date date;
     private String taskId;
 
-    public SummaryStatusUI(String status, LocalDate date, String taskId) {
+    public SummaryStatusUI(String status, Date date, String taskId) {
         this.status = status;
         this.date = date;
         this.taskId = taskId;
@@ -24,7 +25,7 @@ public class SummaryStatusUI {
         return taskId;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 

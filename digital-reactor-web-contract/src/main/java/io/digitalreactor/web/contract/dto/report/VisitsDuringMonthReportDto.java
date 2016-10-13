@@ -11,23 +11,23 @@ import java.util.List;
 public class VisitsDuringMonthReportDto {
     private ReportTypeEnum type = ReportTypeEnum.VISITS_DURING_MONTH;
     private int visit;
-    private int percent;
+    private int visitChange;
+    private double percent;
     private ActionEnum action;
     private List<VisitDto> metrics;
     private String reason;
 
-    public VisitsDuringMonthReportDto(
-           final int visit,
-           final int percent,
-           final ActionEnum action,
-           final List<VisitDto> metrics,
-           final String reason
-    ) {
+    public VisitsDuringMonthReportDto(int visit, int visitChange, double percent, ActionEnum action, List<VisitDto> metrics, String reason) {
         this.visit = visit;
+        this.visitChange = visitChange;
         this.percent = percent;
         this.action = action;
         this.metrics = metrics;
         this.reason = reason;
+    }
+
+    public int getVisitChange() {
+        return visitChange;
     }
 
     public ReportTypeEnum getType() {

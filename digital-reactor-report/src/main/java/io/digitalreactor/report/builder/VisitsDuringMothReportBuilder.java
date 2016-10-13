@@ -51,24 +51,28 @@ public class VisitsDuringMothReportBuilder {
 
 
         ActionEnum action = ActionEnum.UNALTERED;
-        int trendChangePercent = 0;
-        int total = 0;
+
+        double trendChangePercent = 0;
+        int visitChange = 0;
 
         double delta = sumVisitMonthAgo - sumVisitTwoMonthAgo;
         action = trendChanges(delta);
 
         if (sumVisitTwoMonthAgo > sumVisitMonthAgo) {
-            trendChangePercent = (int) (((sumVisitTwoMonthAgo / sumVisitTwoMonthAgo) - 1.0) * 100);
-            total = (int) (sumVisitTwoMonthAgo - sumVisitMonthAgo);
+            trendChangePercent = (((sumVisitTwoMonthAgo / sumVisitMonthAgo) - 1.0) * 100);
+            visitChange = (int) (sumVisitTwoMonthAgo - sumVisitMonthAgo);
         }
 
         if (sumVisitTwoMonthAgo < sumVisitMonthAgo) {
-            trendChangePercent = (int) (((sumVisitMonthAgo / sumVisitTwoMonthAgo) - 1.0) * 100);
-            total = (int) (sumVisitMonthAgo - sumVisitTwoMonthAgo);
+            trendChangePercent =  (((sumVisitMonthAgo / sumVisitTwoMonthAgo) - 1.0) * 100);
+            visitChange = (int) (sumVisitMonthAgo - sumVisitTwoMonthAgo);
         }
 
         return new VisitsDuringMonthReportDto(
-                total, trendChangePercent, action,
+                sumVisitMonthAgo.intValue(),
+                visitChange,
+                trendChangePercent,
+                action,
                 ReportUtil.visitsListWithDay(
                         rowData.getCurrent30Days().stream().map(Double::intValue).collect(Collectors.toList()),
                         rowData.getLastFullDay()
