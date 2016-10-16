@@ -16,6 +16,8 @@ apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 
+applicationDefaultJvmArgs = ["-Dfile.encoding=utf-8"]
+
 allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
