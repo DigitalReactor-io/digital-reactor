@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,7 +43,11 @@ public class SummaryWebService implements SummaryWebServiceContract {
         Account account = accountRepository.findByEmail(email);
         SummaryStatus summaryStatus = summaryStatusRepository.findByAccountIdAndSiteId(account.getId(), siteId);
 
-        return new SummaryStatusUI(summaryStatus.getStatus().name(), summaryStatus.getDate(), summaryStatus.getId());
+        return new SummaryStatusUI(
+                summaryStatus.getStatus().name(),
+                Date.from(summaryStatus.getDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()),
+                summaryStatus.getId()
+        );
     }
 
     @RequestMapping(value = SUMMARY_TASK_PATH, method = RequestMethod.GET)

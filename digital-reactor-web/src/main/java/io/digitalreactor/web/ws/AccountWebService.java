@@ -33,7 +33,7 @@ public class AccountWebService implements AccountWebServiceContract {
     public ShortUserInfoUI getShortInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth.isAuthenticated()) {
+        if (auth.isAuthenticated() && !auth.getName().equals("anonymousUser")) {
             String email = auth.getName();
             Account account = accountRepository.findByEmail(email);
 
