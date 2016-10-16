@@ -1,5 +1,7 @@
 package io.digitalreactor.web.contract.dto.report;
 
+import java.util.Objects;
+
 /**
  * Created by MStepachev on 11.05.2016.
  */
@@ -32,5 +34,20 @@ public class VisitDto {
 
     public DayType getDayType() {
         return dayType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VisitDto visitDto = (VisitDto) o;
+        return number == visitDto.number &&
+                Objects.equals(date, visitDto.date) &&
+                dayType == visitDto.dayType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, date, dayType);
     }
 }

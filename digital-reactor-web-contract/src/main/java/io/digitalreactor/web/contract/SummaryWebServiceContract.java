@@ -19,9 +19,11 @@ import java.util.Map;
 public interface SummaryWebServiceContract {
     final String WEB_SERVICE_PATH = "summaries";
     final String SITE_STATUS_PATH = "status/{siteId}";
+    final String RELOAD_SUMMARY_PATH = "reload/{siteId}";
     final String SUMMARY_PATH = "{summaryId}";
     final String SUMMARY_TASK_PATH = "taskId/{summaryTaskId}";
 
     SummaryStatusUI getSummaryStatus(String siteId);
     Summary getSummary(String summaryTaskId);
+    SummaryStatusUI reloadSummary(String siteId);
 }
