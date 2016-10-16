@@ -7,10 +7,10 @@ import io.digitalreactor.core.service.TemporalTokenStorage;
 import io.digitalreactor.dao.AccountRepository;
 import io.digitalreactor.dao.SummaryStatusRepository;
 import io.digitalreactor.model.TemplateMnemonicEnum;
+import io.digitalreactor.web.service.SummaryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,13 +45,17 @@ public class ServiceConfig {
     }
 
     @Bean
+    public SummaryService summaryService(SummaryStatusRepository summaryStatusRepository){
+        return new SummaryService(summaryStatusRepository);
+    }
+    @Bean
     public AccountService accountService(
             AccountRepository accountRepository,
-            SummaryStatusRepository summaryStatusRepository,
+            SummaryService summaryService,
             PasswordEncoder passwordEncoder,
             EmailSenderService emailSenderService
     ) {
-        return new AccountService(accountRepository, summaryStatusRepository, passwordEncoder, emailSenderService);
+        return new AccountService(accountRepository, passwordEncoder, emailSenderService, summaryService);
     }
 
     @Bean

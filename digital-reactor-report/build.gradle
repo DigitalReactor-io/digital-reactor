@@ -13,4 +13,6 @@ dependencies {
     compile(project(':digital-reactor-web'))
     testCompile('junit:junit:4.12')
     testCompile(group: 'org.mockito', name: 'mockito-core', version: '1.10.19')
+    testCompile group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
+
 }

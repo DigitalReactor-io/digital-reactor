@@ -14,6 +14,12 @@ import java.util.stream.Collectors;
  */
 public class ReportUtil {
 
+    public static List<VisitDto> sortByDate(List<VisitDto> visitDtos) {
+        return visitDtos.stream().sorted((p1, p2) -> {
+            return p1.getDate().compareTo(p2.getDate());
+        }).collect(Collectors.toList());
+    }
+
     public static double changPercent(List<Integer> first, List<Integer> second) {
         return (((double) sum(second) / (double)sum(first)) - 1.0) * 100.0;
     }
@@ -32,6 +38,10 @@ public class ReportUtil {
 
     public static <T> List<T> getSecondMonthMetrics(TwoMonthInterval interval, List<T> metrics) {
         return new ArrayList<>(metrics.subList(interval.first().lengthOfMonth(), metrics.size()));
+    }
+
+    public static List<VisitDto> orderedVisitsList(List<Integer> visits, LocalDate startTime) {
+        return sortByDate(visitsListWithDay(visits, startTime));
     }
 
     public static List<VisitDto> visitsListWithDay(List<Integer> visits, LocalDate startTime) {

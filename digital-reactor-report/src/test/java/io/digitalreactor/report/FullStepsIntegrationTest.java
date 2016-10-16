@@ -30,6 +30,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -85,10 +86,10 @@ public class FullStepsIntegrationTest {
                 33, 27, 29, 29, 22, 22, 22, 20, 32, 36, 33, 30, 12, 15, 24, 23, 18, 29, 26, 31, 25, 21, 29, 39, 33, 40, 15, 18, 20, 24
         );
         assertThat(visitsDuringMonthReport.getVisit(), is(equalTo(777)));
-        assertThat(visitsDuringMonthReport.getVisitChange(), is(equalTo(12)));
+        assertThat(visitsDuringMonthReport.getVisitChange(), is(equalTo(-12)));
         assertThat(visitsDuringMonthReport.getAction(), is(equalTo(ActionEnum.DECREASING)));
-        assertThat(visitsDuringMonthReport.getPercent(), is(equalTo(-1.52)));
-        assertThat(visitsDuringMonthReport.getMetrics(), is(equalTo(ReportUtil.visitsListWithDay(metrics, LocalDate.of(2016, 9, 1)))));
+        assertThat(visitsDuringMonthReport.getPercent(),  is(closeTo(-1.52, 0.01)));
+        assertThat(visitsDuringMonthReport.getMetrics(), is(equalTo(ReportUtil.orderedVisitsList(metrics, LocalDate.of(2016, 9, 1)))));
     }
 
     private <T> T extractReportWithType(Class<T> reportType) {

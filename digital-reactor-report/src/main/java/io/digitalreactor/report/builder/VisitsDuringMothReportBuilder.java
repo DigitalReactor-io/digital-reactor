@@ -5,6 +5,7 @@ import io.digitalreactor.web.contract.dto.report.ActionEnum;
 import io.digitalreactor.web.contract.dto.report.VisitsDuringMonthReportDto;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,33 +50,24 @@ public class VisitsDuringMothReportBuilder {
         Double sumVisitMonthAgo = rowData.getMonthAgo().stream().mapToDouble(Double::doubleValue).sum();
         Double sumVisitTwoMonthAgo = rowData.getTwoMonthAgo().stream().mapToDouble(Double::doubleValue).sum();
 
-
         ActionEnum action = ActionEnum.UNALTERED;
 
-        double trendChangePercent = 0;
-        int visitChange = 0;
+        int visitChange = (int) (sumVisitMonthAgo - sumVisitTwoMonthAgo);
+        double trendChangePercent = ((double) visitChange / sumVisitTwoMonthAgo) * 100;
+        action = trendChanges(visitChange);
 
-        double delta = sumVisitMonthAgo - sumVisitTwoMonthAgo;
-        action = trendChanges(delta);
-
-        if (sumVisitTwoMonthAgo > sumVisitMonthAgo) {
-            trendChangePercent = (((sumVisitTwoMonthAgo / sumVisitMonthAgo) - 1.0) * 100);
-            visitChange = (int) (sumVisitTwoMonthAgo - sumVisitMonthAgo);
-        }
-
-        if (sumVisitTwoMonthAgo < sumVisitMonthAgo) {
-            trendChangePercent =  (((sumVisitMonthAgo / sumVisitTwoMonthAgo) - 1.0) * 100);
-            visitChange = (int) (sumVisitMonthAgo - sumVisitTwoMonthAgo);
-        }
+        //TODO must be refactoring
+        List<Integer> visitsList = rowData.getCurrent30Days().stream().map(Double::intValue).collect(Collectors.toList());
+        Collections.reverse(visitsList);
 
         return new VisitsDuringMonthReportDto(
                 sumVisitMonthAgo.intValue(),
                 visitChange,
                 trendChangePercent,
                 action,
-                ReportUtil.visitsListWithDay(
-                        rowData.getCurrent30Days().stream().map(Double::intValue).collect(Collectors.toList()),
-                        rowData.getLastFullDay()
+                ReportUtil.orderedVisitsList(
+                        visitsList,
+                        rowData.getLastFullDay().withDayOfMonth(1)
                 ),
                 "На посещаемость может влиять сезонность, отключение рекламного канала или снижение видимости сайта в поисковой выдачи."
         );
