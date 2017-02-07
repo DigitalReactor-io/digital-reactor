@@ -8,17 +8,21 @@ import io.digitalreactor.model.SummaryStatus;
 import io.digitalreactor.model.SummaryStatusEnum;
 import io.digitalreactor.model.YandexCounterAccess;
 import io.digitalreactor.report.ReportUtil;
+import io.digitalreactor.report.builder.DirectSearchPhraseReportBuilder;
 import io.digitalreactor.report.builder.ReferringSourceBuilder;
 import io.digitalreactor.report.builder.VisitsDuringMothReportBuilder;
 import io.digitalreactor.report.model.TwoMonthInterval;
 import io.digitalreactor.vendor.yandex.model.GoalResponse;
+import io.digitalreactor.vendor.yandex.model.PhraseRow;
 import io.digitalreactor.vendor.yandex.model.Response;
 import io.digitalreactor.vendor.yandex.serivce.GoalApiService;
 import io.digitalreactor.vendor.yandex.serivce.ReportApiService;
+import io.digitalreactor.vendor.yandex.specification.DirectSearchPhrasesWithGoalsRequest;
 import io.digitalreactor.vendor.yandex.specification.ReferringSourceWitGoalsRequest;
 import io.digitalreactor.vendor.yandex.specification.VisitsRequest;
 import io.digitalreactor.web.contract.dto.report.Summary;
 import io.digitalreactor.web.contract.dto.report.VisitsDuringMonthReportDto;
+import io.digitalreactor.web.contract.dto.report.direct.DirectSearchPhraseReportDto;
 import io.digitalreactor.web.contract.dto.report.referringsource.ReferringSourceReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +109,7 @@ public class ReportScheduler {
 
             reportsCollections.add(visitsDuringMonthReportDto(yandexAccess.getCounterId(), yandexAccess.getToken()));
             reportsCollections.add(referringSourceReport(yandexAccess.getCounterId(), yandexAccess.getToken()));
+            reportsCollections.add(directSearchPhrasesReport(yandexAccess.getCounterId(), yandexAccess.getToken()));
 
             summaryRepository.save(new Summary(summaryStatus.getId(), reportsCollections));
             summaryStatus.setStatus(SummaryStatusEnum.DONE);
@@ -117,6 +122,23 @@ public class ReportScheduler {
             summaryStatusRepository.save(summaryStatus);
             throw e;
         }
+    }
+
+    private DirectSearchPhraseReportDto directSearchPhrasesReport(String counterId, String token) {
+        TwoMonthInterval interval = TwoMonthInterval.previous(LocalDate.now());
+        GoalResponse goals = goalApiService.getGoals(counterId, token);
+
+        List<PhraseRow> phrases = reportApiService.findAllBy(new DirectSearchPhrasesWithGoalsRequest(
+                token,
+                counterId,
+                interval.first(),
+                interval.last(),
+                goals.getGoalsIds()
+        ));
+
+        DirectSearchPhraseReportBuilder builder = new DirectSearchPhraseReportBuilder();
+
+        return builder.build(phrases, goals);
     }
 
     private VisitsDuringMonthReportDto visitsDuringMonthReportDto(String counterId, String token) {

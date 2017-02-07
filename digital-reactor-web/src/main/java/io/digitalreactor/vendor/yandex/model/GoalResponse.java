@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 public class GoalResponse {
     private List<Goal> goals;
 
+    public GoalResponse(List<Goal> goals) {
+        this.goals = goals;
+    }
+
     public GoalResponse() {
         goals = new ArrayList<>();
     }

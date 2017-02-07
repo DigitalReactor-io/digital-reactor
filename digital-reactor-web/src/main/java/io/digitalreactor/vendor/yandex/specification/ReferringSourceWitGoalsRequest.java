@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
  * Created by MStepachev on 27.09.2016.
  */
 public class ReferringSourceWitGoalsRequest implements Request {
-    private final String QUERY_TEMPLATE = "stat/v1/data/bytime?group=day&id=%s&metrics=ym:s:visits%s&date1=%s&date2=%s&dimensions=ym:s:lastTrafficSource&oauth_token=%s";
-    private final String GOAL_PARAMETER_TEMPLATE = "ym:s:goal%svisits";
+    private final String QUERY_TEMPLATE = "stat/v1/data/bytime?group=day&id=%s&metrics=ym:s:users%s&date1=%s&date2=%s&dimensions=ym:s:lastTrafficSource&oauth_token=%s";
+    private final String GOAL_PARAMETER_TEMPLATE = "ym:s:goal%susers";
 
     private final String oauthToken;
     private final String counterId;

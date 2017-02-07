@@ -20,6 +20,8 @@ dependencies {
     //http clients
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 
+    compile group: 'org.json', name: 'json', version: '20160810'
+
     //TODO add dependency management
     //Security
     compile 'org.springframework.security:spring-security-web:4.1.1.RELEASE'

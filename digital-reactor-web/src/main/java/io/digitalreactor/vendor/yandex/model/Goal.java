@@ -14,6 +14,11 @@ public class Goal {
     @JsonProperty("is_retargeting")
     private boolean isRetargeting;
 
+    public Goal(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Goal() {
     }
 

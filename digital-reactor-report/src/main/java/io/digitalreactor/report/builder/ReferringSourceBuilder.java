@@ -100,7 +100,7 @@ public class ReferringSourceBuilder {
         List<Integer> secondMonthMetrics = getSecondMonthMetrics(monthInterval, rowMetricsData);
 
         List<VisitDto> metrics = visitsListWithDay(
-                firstMonthMetrics,
+                secondMonthMetrics,
                 monthInterval.firstDayOfSecondMonth()
         );
 

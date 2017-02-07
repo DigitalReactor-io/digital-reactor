@@ -1,6 +1,7 @@
 package io.digitalreactor.vendor.yandex.serivce;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.digitalreactor.vendor.yandex.domain.CustomRequest;
 import io.digitalreactor.vendor.yandex.domain.Request;
 import io.digitalreactor.vendor.yandex.model.Response;
 import org.apache.commons.io.IOUtils;
@@ -36,6 +37,32 @@ public class ReportApiService {
                     logger.debug(jasonResponse);
 
                     return mapper.readValue(jasonResponse, Response.class);
+                } else {
+                    //TODO[St.maxim] custom exception
+                    throw new RuntimeException("Gotten: " + statusCode + IOUtils.toString(response.getEntity().getContent(), "UTF-8"));
+                }
+            });
+
+        } catch (UnsupportedEncodingException e) {
+            //TODO[St.maxim] fix it
+            logger.error("Can't parse query {}", request.toQuery());
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public <R> R findAllBy(CustomRequest<String, R> request) {
+        try {
+            return httpClient.execute(request(request.toQuery()), response -> {
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode == 200) {
+                    String jasonResponse = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+                    logger.debug(jasonResponse);
+
+                    return request.transform(jasonResponse);
                 } else {
                     //TODO[St.maxim] custom exception
                     throw new RuntimeException("Gotten: " + statusCode + IOUtils.toString(response.getEntity().getContent(), "UTF-8"));

@@ -1,10 +1,11 @@
-package io.digitalreactor.web.contract.dto.report.direct;
+package io.digitalreactor.vendor.yandex.model;
+
+import java.util.Map;
 
 /**
- * Created by ingvard on 05.01.17.
+ * Created by ingvard on 06.01.17.
  */
-public class DirectSearchPhraseDto {
-
+public class PhraseRow {
     private String searchPhrase;
 
     //ym:s:visits
@@ -19,16 +20,15 @@ public class DirectSearchPhraseDto {
     //ym:s:avgVisitDurationSeconds
     private double avgVisitDurationSeconds;
 
-    //sometime it is a conversion.
-    private double quality;
+    private Map<String, Integer> goalAndConversion;
 
-    public DirectSearchPhraseDto(String searchPhrase, int visits, double bounceRate, double pageDepth, double avgVisitDurationSeconds, double quality) {
+    public PhraseRow(String searchPhrase, int visits, double bounceRate, double pageDepth, double avgVisitDurationSeconds, Map<String, Integer> goalAndConversion) {
         this.searchPhrase = searchPhrase;
         this.visits = visits;
         this.bounceRate = bounceRate;
         this.pageDepth = pageDepth;
         this.avgVisitDurationSeconds = avgVisitDurationSeconds;
-        this.quality = quality;
+        this.goalAndConversion = goalAndConversion;
     }
 
     public String getSearchPhrase() {
@@ -51,7 +51,7 @@ public class DirectSearchPhraseDto {
         return avgVisitDurationSeconds;
     }
 
-    public double getQuality() {
-        return quality;
+    public Map<String, Integer> getGoalAndConversion() {
+        return goalAndConversion;
     }
 }

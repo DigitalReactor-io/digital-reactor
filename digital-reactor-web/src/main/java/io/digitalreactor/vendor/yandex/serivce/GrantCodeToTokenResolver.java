@@ -1,6 +1,8 @@
 package io.digitalreactor.vendor.yandex.serivce;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.HttpPost;
@@ -48,6 +50,7 @@ public class GrantCodeToTokenResolver {
         return token.getAccessToken();
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class TokenResponse {
         @JsonProperty("token_type")
         private String tokenType;
@@ -55,6 +58,8 @@ public class GrantCodeToTokenResolver {
         private String accessToken;
         @JsonProperty("expires_in")
         private String expiresIn;
+        @JsonProperty("refresh_token")
+        private String refreshToken;
 
         public TokenResponse() {
         }
